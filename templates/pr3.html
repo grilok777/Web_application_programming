@@ -1,0 +1,55 @@
+{{define "content"}}
+<h1>ПР №3: Розрахунок прибутку від сонячних електростанцій</h1>
+<form method="POST">
+    <div class="grid" style="grid-template-columns: 1fr 1fr 1fr;">
+        <div class="input-panel">
+            <h3>Вхідні дані</h3>
+            <label>Середньодобова потужність (МВт):
+                <input name="pc" type="number" step="0.01" value="5" required>
+            </label>
+            <label>Наявне середньокв. відхилення (МВт):
+                <input name="q1" type="number" step="0.01" value="1" required>
+            </label>
+            <label>Передбачуване відхилення (МВт):
+                <input name="q2" type="number" step="0.01" value="0.25" required>
+            </label>
+            <label>Вартість електроенергії (грн/кВт*год):
+                <input name="pr" type="number" step="0.01" value="7" required>
+            </label>
+            <button type="submit">Розрахувати</button>
+        </div>
+
+        <div class="result-panel">
+            <h3>До прогнозування</h3>
+            {{if .HasResult}}
+            <div class="result-box">
+                <p>Частка енергії без небалансів: <b>{{printf "%.2f" (index .Res3 "w1")}} %</b></p>
+                <p>Прибуткова енергія: <b>{{printf "%.1f" (index .Res3 "pEl1")}} МВт*год</b></p>
+                <p>Штрафна енергія: <b>{{printf "%.1f" (index .Res3 "fEl1")}} МВт*год</b></p>
+                <hr>
+                <p style="font-size: 0.85rem;">Отримані: {{printf "%.2f" (index .Res3 "rec1")}} грн</p>
+                <p style="font-size: 0.85rem;">Заплачені: {{printf "%.2f" (index .Res3 "paid1")}} грн</p>
+                <p><b>Чистий прибуток: <span style="color:#10b981;">{{printf "%.2f" (index .Res3 "profit1")}}
+                            грн</span></b></p>
+            </div>
+            {{else}} <p>Очікування даних...</p> {{end}}
+        </div>
+
+        <div class="result-panel">
+            <h3>Після впровадження системи</h3>
+            {{if .HasResult}}
+            <div class="result-box" style="border-left-color: #3b82f6;">
+                <p>Частка енергії без небалансів: <b>{{printf "%.2f" (index .Res3 "w2")}} %</b></p>
+                <p>Прибуткова енергія: <b>{{printf "%.1f" (index .Res3 "pEl2")}} МВт*год</b></p>
+                <p>Штрафна енергія: <b>{{printf "%.1f" (index .Res3 "fEl2")}} МВт*год</b></p>
+                <hr>
+                <p style="font-size: 0.85rem;">Отримані: {{printf "%.2f" (index .Res3 "rec2")}} грн</p>
+                <p style="font-size: 0.85rem;">Заплачені: {{printf "%.2f" (index .Res3 "paid2")}} грн</p>
+                <p><b>Чистий прибуток: <span style="color:#3b82f6;">{{printf "%.2f" (index .Res3 "profit2")}}
+                            грн</span></b></p>
+            </div>
+            {{else}} <p>Очікування даних...</p> {{end}}
+        </div>
+    </div>
+</form>
+{{end}}

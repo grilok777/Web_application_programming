@@ -1,0 +1,41 @@
+{{define "content"}}
+<h1>ПР №2: Викиди суспендованих частинок</h1>
+<form method="POST">
+    <div class="grid">
+        <div class="input-panel">
+            <label>Тип палива:</label>
+            <select name="fuelType" id="fuelType" onchange="updateFuelOptions()">
+                <option value="coal">Донецьке газове вугілля марки ГР</option>
+                <option value="oil">Високосірчистий мазут марки 40</option>
+                <option value="gas">Природний газ із газопроводу Уренгой-Ужгород</option>
+            </select>
+            <label>Витрата палива (т): <input name="B" type="number" step="0.01" required></label>
+            <label>η (зололовлення): <input name="n" type="number" step="0.001" value="0.985" required></label>
+            <label>Тип топки (aᵥ): <select name="av" id="avSelect"></select></label>
+            <button type="submit">Розрахувати викиди</button>
+        </div>
+        <div class="result-panel">
+            <h3>Результати розрахунку</h3>
+            {{if .HasResult}}
+            <div class="result-box">
+                <p><b>Показник емісії (k_em):</b> {{printf "%.2f" (index .Res2 "Kem")}} г/ГДж</p>
+                <p><b>Валовий викид (E):</b> {{printf "%.2f" (index .Res2 "E")}} т</p>
+            </div>
+            {{else}}
+            <p>Результати з'являться після натискання кнопки...</p>
+            {{end}}
+        </div>
+    </div>
+</form>
+
+<script>
+    function updateFuelOptions() {
+        const fuel = document.getElementById("fuelType").value;
+        const av = document.getElementById("avSelect");
+        av.innerHTML = "";
+        let options = fuel === "coal" ? { "0.95": "З твердим (сухим) шлаковидаленням", "0.8": "Відкрита топка з рідким шлаковидаленням", "0.15": "Двокамерна топка горизонтальна циклонна" } : (fuel === "oil" ? { "1.0": "Мазутна топка" } : { "0.0": "Газ" });
+        for (let v in options) { av.innerHTML += `<option value="${v}">${options[v]}</option>`; }
+    }
+    updateFuelOptions();
+</script>
+{{end}}
