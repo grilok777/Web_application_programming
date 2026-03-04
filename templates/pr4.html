@@ -1,0 +1,122 @@
+{{define "content"}}
+<div class="calculator-sections">
+
+    <section class="card" style="margin-bottom: 30px;">
+        <h1>Завдання 1: Вибір кабелів (10 кВ)</h1>
+        <form method="POST">
+            <input type="hidden" name="calc_type" value="task1">
+            <div class="grid">
+                <div class="input-panel">
+                    <label>Струми КЗ (Ik), А: <input name="Ik" type="number" step="0.01" value="2500" required></label>
+                    <label>Фіктивний час (Tf), с: <input name="Tf" type="number" step="0.01" value="2.5"
+                            required></label>
+                    <label>Навантаження (Pm), кВ*А: <input name="Pm" type="number" step="0.01" value="1300"
+                            required></label>
+                    <label>Час (Tm), год: <input name="Tm" type="number" step="0.01" value="4000" required></label>
+
+                    <label><b>Матеріал провідника:</b></label>
+                    <div style="margin-bottom: 10px;">
+                        <input type="radio" name="materl" value="0" checked> Мідь
+                        <input type="radio" name="materl" value="1"> Алюміній
+                    </div>
+
+                    <label><b>Тип ізоляції:</b></label>
+                    <div>
+                        <label><input type="radio" name="isolat" value="0" checked> Неізольовані</label><br>
+                        <label><input type="radio" name="isolat" value="2"> Паперова / ПВХ</label><br>
+                        <label><input type="radio" name="isolat" value="4"> Гумова / Пластмасова</label>
+                    </div>
+
+                    <button type="submit">Розрахувати кабелі</button>
+                </div>
+
+                <div class="result-panel">
+                    <h3>Результати Завдання 1</h3>
+                    {{if index .Res4 "Im"}}
+                    <div class="result-box">
+                        <p>Струм норм. режиму: <b>{{printf "%.1f" (index .Res4 "Im")}} А</b></p>
+                        <p>Струм післяаварійний: <b>{{printf "%.0f" (index .Res4 "Impa")}} А</b></p>
+                        <p>Економічний переріз: <b>{{printf "%.1f" (index .Res4 "Sek")}} мм²</b></p>
+                        <p>Переріз кабелю: <b>{{printf "%.0f" (index .Res4 "S")}} мм²</b></p>
+                        <hr>
+                        <p style="font-size: 0.85rem; color: #475569;">{{index .Res4Text "t1"}}</p>
+                        <p style="font-size: 0.85rem; color: #475569;"><b>{{index .Res4Text "t2"}}</b></p>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <section class="card" style="margin-bottom: 30px;">
+        <h1>Завдання 2: Струми КЗ на шинах 10 кВ ГПП</h1>
+        <form method="POST">
+            <input type="hidden" name="calc_type" value="task2">
+            <div class="grid">
+                <div class="input-panel">
+                    <label>Потужність КЗ (P), МВ*А: <input name="P" type="number" step="0.01" value="200"
+                            required></label>
+
+                    <label><b>Напруга точки КЗ:</b></label>
+                    <div style="margin-bottom: 10px;">
+                        <input type="radio" name="Uch" value="6.3"> 6.3 кВ
+                        <input type="radio" name="Uch" value="10.5" checked> 10.5 кВ
+                        <input type="radio" name="Uch" value="37"> 37 кВ
+                        <input type="radio" name="Uch" value="115"> 115 кВ
+                    </div>
+                    <button type="submit" style="background-color: #10b981;">Розрахувати КЗ</button>
+                </div>
+                <div class="result-panel">
+                    <h3>Результати Завдання 2</h3>
+                    {{if index .Res4 "R"}}
+                    <div class="result-box" style="border-left-color: #10b981;">
+                        <p>Сумарний опір (К1): <b>{{printf "%.2f" (index .Res4 "R")}} Ом</b></p>
+                        <p>Струм трифазного КЗ: <b>{{printf "%.1f" (index .Res4 "I")}} кА</b></p>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <section class="card">
+        <h1>Завдання 3: Режими підстанції ХПнЕМ</h1>
+        <form method="POST">
+            <input type="hidden" name="calc_type" value="task3">
+            <div class="grid">
+                <div class="input-panel">
+                    <label>Rcn (Норм): <input name="Rn" type="number" step="0.01" value="10.65" required></label>
+                    <label>Xcn (Норм): <input name="Xn" type="number" step="0.01" value="24.02" required></label>
+                    <label>Rcmin (Мін): <input name="Rmin" type="number" step="0.01" value="34.88" required></label>
+                    <label>Xcmin (Мін): <input name="Xmin" type="number" step="0.01" value="65.68" required></label>
+                    <button type="submit" style="background-color: #8b5cf6;">Розрахувати режими</button>
+                </div>
+                <div class="result-panel">
+                    <h3>Результати Завдання 3</h3>
+                    {{if index .Res4 "i3Sh"}}
+                    <div class="result-box" style="border-left-color: #8b5cf6; font-size: 0.85rem;">
+                        <p><b>Шини 10кВ (приведені до 110кВ):</b></p>
+                        <p>3-фазне КЗ: Норм: {{printf "%.0f" (index .Res4 "i3Sh")}} А | Мін: {{printf "%.0f" (index
+                            .Res4 "i3ShMin")}} А</p>
+                        <p>2-фазне КЗ: Норм: {{printf "%.0f" (index .Res4 "i2Sh")}} А | Мін: {{printf "%.0f" (index
+                            .Res4 "i2ShMin")}} А</p>
+                        <hr>
+                        <p><b>Дійсні струми (Шини 10кВ):</b></p>
+                        <p>3-фазне КЗ: Норм: {{printf "%.0f" (index .Res4 "i3ShN")}} А | Мін: {{printf "%.0f" (index
+                            .Res4 "i3ShMinN")}} А</p>
+                        <p>2-фазне КЗ: Норм: {{printf "%.0f" (index .Res4 "i2ShN")}} А | Мін: {{printf "%.0f" (index
+                            .Res4 "i2ShMinN")}} А</p>
+                        <hr>
+                        <p><b>Струми в точці 10:</b></p>
+                        <p>3-фазне КЗ: Норм: {{printf "%.0f" (index .Res4 "i3LN")}} А | Мін: {{printf "%.0f" (index
+                            .Res4 "i3LMinN")}} А</p>
+                        <p>2-фазне КЗ: Норм: {{printf "%.0f" (index .Res4 "i2LN")}} А | Мін: {{printf "%.0f" (index
+                            .Res4 "i2LMinN")}} А</p>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </form>
+    </section>
+</div>
+{{end}}

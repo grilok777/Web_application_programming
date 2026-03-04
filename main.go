@@ -11,6 +11,10 @@ type PageData struct {
 	InputMazut, ResMazut map[string]float64
 	Input2, Res2         map[string]float64
 	Input3, Res3         map[string]float64 // Для сонячних станцій
+
+	Input4, Res4         map[string]float64
+	Res4Text             map[string]string
+
 	HasResult            bool
 }
 
@@ -21,9 +25,10 @@ func parseTemplate(file string) *template.Template {
 
 func main() {
 	// Маршрути (роутинг)
-	http.HandleFunc("/pr1", handlerPR1) // Функцію handlerPR1 можете винести в pr1.go
-	http.HandleFunc("/pr2", handlerPR2) // Функцію handlerPR2 можете винести в pr2.go
-	http.HandleFunc("/pr3", handlerPR3) // Ця функція знаходиться у файлі pr3.go
+	http.HandleFunc("/pr1", handlerPR1) 
+	http.HandleFunc("/pr2", handlerPR2) 
+	http.HandleFunc("/pr3", handlerPR3) 
+	http.HandleFunc("/pr4", handlerPR4)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/pr1", http.StatusSeeOther)
