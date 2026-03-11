@@ -1,0 +1,80 @@
+{{define "content"}}
+<div class="calculator-sections">
+    <section class="card" style="margin-bottom: 30px;">
+        <h1>Завдання 1: Порівняння надійності систем електропередачі</h1>
+        <form method="POST">
+            <input type="hidden" name="calc_type" value="task1">
+            <div class="grid" style="grid-template-columns: 1fr 1fr 1fr;">
+                <div class="input-panel">
+                    <label>T-110 кВ: <input name="n0" type="number" step="1" value="1" required></label>
+                    <label>T-35 кВ: <input name="n1" type="number" step="1" value="0" required></label>
+                    <label>T-10 кВ (кабель): <input name="n2" type="number" step="1" value="0" required></label>
+                    <label>T-10 кВ (повітр): <input name="n3" type="number" step="1" value="0" required></label>
+                    <label>В-110 кВ (елегаз): <input name="n4" type="number" step="1" value="1" required></label>
+                    <label>В-10 кВ (малоолив): <input name="n5" type="number" step="1" value="1" required></label>
+                </div>
+                <div class="input-panel">
+                    <label>В-10 кВ (вакуум): <input name="n6" type="number" step="1" value="0" required></label>
+                    <label>Збірні шини 10 кВ: <input name="n7" type="number" step="1" value="6" required></label>
+                    <label>АВ-0.38: <input name="n8" type="number" step="1" value="0" required></label>
+                    <label>ЕД-6.10 кВ: <input name="n9" type="number" step="1" value="0" required></label>
+                    <label>ЕД-0.38 кВ: <input name="n10" type="number" step="1" value="0" required></label>
+                    <label>ПЛ-110 кВ: <input name="n11" type="number" step="0.01" value="1" required></label>
+                </div>
+                <div class="input-panel">
+                    <label>ПЛ-35 кВ: <input name="n12" type="number" step="0.01" value="0" required></label>
+                    <label>ПЛ-10 кВ: <input name="n13" type="number" step="0.01" value="0" required></label>
+                    <label>КЛ-10 кВ (траншея): <input name="n14" type="number" step="0.01" value="0" required></label>
+                    <label>КЛ-10 кВ (канал): <input name="n15" type="number" step="0.01" value="0" required></label>
+                    <button type="submit" style="margin-top: 15px;">Розрахувати надійність</button>
+                </div>
+            </div>
+
+            <div class="result-panel" style="margin-top: 20px;">
+                <h3>Результати Завдання 1</h3>
+                {{if index .Res5 "wOs"}}
+                <div class="result-box">
+                    <p>Частота відмов одноколової системи: <b>{{printf "%.3f" (index .Res5 "wOs")}} рік⁻¹</b></p>
+                    <p>Середня тривалість відновлення: <b>{{printf "%.1f" (index .Res5 "t")}} год</b></p>
+                    <p>Коеф. аварійного простою: <b>{{index .Res5Text "kE"}}</b></p>
+                    <p>Коеф. планового простою: <b>{{index .Res5Text "kP"}}</b></p>
+                    <hr>
+                    <p>Частота відмов одночасно двох кіл: <b>{{index .Res5Text "wDk"}} рік⁻¹</b></p>
+                    <p>Частота відмов (з секційним вимикачем): <b>{{index .Res5Text "wDs"}} рік⁻¹</b></p>
+                </div>
+                {{end}}
+            </div>
+        </form>
+    </section>
+
+    <section class="card">
+        <h1>Завдання 2: Збитки від перерв електропостачання</h1>
+        <form method="POST">
+            <input type="hidden" name="calc_type" value="task2">
+            <div class="grid">
+                <div class="input-panel">
+                    <label>Ціна переривання (аварія), грн/кВт*год: <input name="priceE" type="number" step="0.01"
+                            value="23.6" required></label>
+                    <label>Ціна переривання (планове), грн/кВт*год: <input name="pricePl" type="number" step="0.01"
+                            value="17.6" required></label>
+                    <label>Частота відмов і час відновл. (аварія): <input name="timeE" type="number" step="0.01"
+                            value="45" required></label>
+                    <label>Час планового простою, 10^-3 року (т-ра): <input name="timePl" type="number" step="0.01" value="4"
+                            required></label>
+                    <button type="submit" style="background-color: #f59e0b;">Розрахувати збитки</button>
+                </div>
+                <div class="result-panel">
+                    <h3>Результати Завдання 2</h3>
+                    {{if index .Res5 "loss"}}
+                    <div class="result-box" style="border-left-color: #f59e0b;">
+                        <p>Передбачувана сума збитків:</p>
+                        <p style="font-size: 1.2rem; font-weight: bold; color: #f59e0b;">{{printf "%.0f" (index .Res5
+                            "loss")}} грн</p>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </form>
+    </section>
+</div>
+{{end}}

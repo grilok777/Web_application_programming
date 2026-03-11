@@ -14,6 +14,8 @@ type PageData struct {
 
 	Input4, Res4         map[string]float64
 	Res4Text             map[string]string
+	Input5, Res5         map[string]float64
+	Res5Text             map[string]string
 
 	HasResult            bool
 }
@@ -29,6 +31,7 @@ func main() {
 	http.HandleFunc("/pr2", handlerPR2) 
 	http.HandleFunc("/pr3", handlerPR3) 
 	http.HandleFunc("/pr4", handlerPR4)
+	http.HandleFunc("/pr5", handlerPR5)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/pr1", http.StatusSeeOther)

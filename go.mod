@@ -1,3 +1,3 @@
-module pr3
+module pr5
 
 go 1.25.0
