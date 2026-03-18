@@ -32,7 +32,7 @@ func handlerPR5(w http.ResponseWriter, r *http.Request) {
 		calcType := r.FormValue("calc_type")
 
 		if calcType == "task1" {
-			// Таблиця даних (з вашого JS)
+			// Таблиця даних 
 			table := [][]float64{
 				{0.015, 100, 1, 43},
 				{0.02, 80, 1, 28},

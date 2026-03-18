@@ -32,6 +32,7 @@ func main() {
 	http.HandleFunc("/pr3", handlerPR3) 
 	http.HandleFunc("/pr4", handlerPR4)
 	http.HandleFunc("/pr5", handlerPR5)
+	http.HandleFunc("/pr6", handlerPR6)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/pr1", http.StatusSeeOther)
